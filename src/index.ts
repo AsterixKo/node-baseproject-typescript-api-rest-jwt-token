@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import express from 'express';
+import { authRoutes } from './routes/auth.routes';
 import { authorRoutes } from './routes/authors.routes';
 import { bookRoutes } from './routes/books.routes';
 import { userRoutes } from './routes/users.routes';
@@ -17,6 +18,9 @@ app.use(express.json()); // Poder interpretar json en las peticiones
 app.use('/users', userRoutes.router);
 app.use('/books', bookRoutes.router);
 app.use('/authors', authorRoutes.router);
+
+//authentication
+app.use('/auth', authRoutes.router);
 
 // Start the server, using the port defined
 app.listen(app.get('port'), () => {

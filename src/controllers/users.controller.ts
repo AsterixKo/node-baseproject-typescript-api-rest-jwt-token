@@ -12,30 +12,41 @@ class UsersController {
         try{
             // SELECT * FROM USERS WHERE name = 'Antonio' AND id:3 AND familyName = 'Lozano' OR familyName='Belén'
             const users = await User.findAll({ 
-                where: {
-                    name: {
-                        [Op.like] : '%A%'
-                    },
-                    id: 3,
-                    [Op.or] : [
-                        {familyName: 'Lozano'},
-                        {familyName: 'Belén'}
-                    ]
-                },
                 raw: true
             });
-            const userAntonio = await User.findByPk(3, { raw: true});
-
-            if(userAntonio && users){
                 res.send(users);
-            }else{
-                res.sendStatus(404);
-            }
             
         } catch (error) {
             console.log(error);
             res.sendStatus(500);
         }   
+        // try{
+        //     // SELECT * FROM USERS WHERE name = 'Antonio' AND id:3 AND familyName = 'Lozano' OR familyName='Belén'
+        //     const users = await User.findAll({ 
+        //         where: {
+        //             name: {
+        //                 [Op.like] : '%A%'
+        //             },
+        //             id: 3,
+        //             [Op.or] : [
+        //                 {familyName: 'Lozano'},
+        //                 {familyName: 'Belén'}
+        //             ]
+        //         },
+        //         raw: true
+        //     });
+        //     const userAntonio = await User.findByPk(3, { raw: true});
+
+        //     if(userAntonio && users){
+        //         res.send(users);
+        //     }else{
+        //         res.sendStatus(404);
+        //     }
+            
+        // } catch (error) {
+        //     console.log(error);
+        //     res.sendStatus(500);
+        // }   
     }
 
     public async providers (req: Request, res: Response) {
