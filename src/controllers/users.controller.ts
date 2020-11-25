@@ -11,6 +11,7 @@ class UsersController {
     
         try{
             // SELECT * FROM USERS WHERE name = 'Antonio' AND id:3 AND familyName = 'Lozano' OR familyName='Belén'
+            console.log('index de users');
             const users = await User.findAll({ 
                 raw: true
             });

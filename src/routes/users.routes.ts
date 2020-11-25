@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { usersController } from '../controllers/users.controller';
 import { checkJwt } from '../middlewares/checkJwt';
+import { usersController } from '../controllers/users.controller';
+
 
 class UsersRoutes {
 
@@ -11,7 +12,7 @@ class UsersRoutes {
         
         this.router.get('/', [checkJwt], usersController.index);
         this.router.get('/:id', usersController.showById);
-        this.router.post('/', usersController.create);
+        // this.router.post('/', usersController.create);
         this.router.delete('/:id', usersController.delete);
         this.router.put('/:id', usersController.update);
 

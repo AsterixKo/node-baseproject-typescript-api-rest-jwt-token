@@ -5,9 +5,11 @@ import config from '../config/config.json';
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
 
     //Coger el token del request
-    const token = <string> req.headers["Authorization"];
+    const token = <string> req.headers["authorization"];
 
     try{
+        console.log('headers:', req.headers);
+        console.log('tooken:', token);
         jwt.verify(token, config.jwtSecret);
 
     }catch(error) {
