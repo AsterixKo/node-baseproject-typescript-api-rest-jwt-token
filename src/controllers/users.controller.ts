@@ -4,23 +4,24 @@ import { Op } from 'sequelize';
 import { User } from '../models/user.model';
 import { Product } from '../models/product.model';
 import { Provider } from '../models/provider.model';
+import { Role } from '../models/role.model';
 
 class UsersController {
 
-    public async index (req: Request, res: Response) {        
-    
-        try{
+    public async index(req: Request, res: Response) {
+
+        try {
             // SELECT * FROM USERS WHERE name = 'Antonio' AND id:3 AND familyName = 'Lozano' OR familyName='Belén'
             console.log('index de users');
-            const users = await User.findAll({ 
+            const users = await User.findAll({
                 raw: true
             });
-                res.send(users);
-            
+            res.send(users);
+
         } catch (error) {
             console.log(error);
             res.sendStatus(500);
-        }   
+        }
         // try{
         //     // SELECT * FROM USERS WHERE name = 'Antonio' AND id:3 AND familyName = 'Lozano' OR familyName='Belén'
         //     const users = await User.findAll({ 
@@ -43,29 +44,29 @@ class UsersController {
         //     }else{
         //         res.sendStatus(404);
         //     }
-            
+
         // } catch (error) {
         //     console.log(error);
         //     res.sendStatus(500);
         // }   
     }
 
-    public async providers (req: Request, res: Response) {
+    public async providers(req: Request, res: Response) {
         const product: Provider[] = await Provider.findAll(
             {
                 include: [
                     {
                         model: Product
                     }
-                ]   
+                ]
             }
         );
 
         res.send(product);
-        
+
     }
 
-    public async show (req: Request, res: Response) {
+    public async show(req: Request, res: Response) {
 
         const product: Product[] = await Product.findAll(
             {
@@ -73,50 +74,59 @@ class UsersController {
                     {
                         model: Provider
                     }
-                ]   
+                ]
             }
         );
 
         res.send(product);
-        
+
     }
 
-    public async showById(req: Request, res: Response){
+    public async showById(req: Request, res: Response) {
         console.log(req.params.id);
 
         try {
-            
-            const user = await User.findByPk(req.params.id, { raw: true});
+
+            const user = await User.findByPk(req.params.id, { raw: true });
 
             res.send(user);
 
-        } catch (error){
+        } catch (error) {
             res.json(error);
         }
     }
 
-    public async create (req: Request, res: Response){
+    public async create(req: Request, res: Response) {
 
-        try{
+        try {
             const request = req.body;
             const newUser = await User.create(request);
+            //LE PONEMOS EL ROLE DEL WEB_CLIENT QUE ES EL 2
+            const role = await Role.findOne({
+                where: {
+                    name: 'WEB_CLIENT'
+                }
+            });
+            if (role) {
+                const updatedUser = await User.update({ roleId: role.id }, { where: { id: newUser.id } });
+            }
 
             res.json(newUser);
 
-        }catch(error){
+        } catch (error) {
 
             res.json(error);
-            
+
         }
-            
+
     }
 
-    public async delete (req: Request, res: Response){
+    public async delete(req: Request, res: Response) {
 
         console.log(req.params.id);
 
         try {
-            
+
             const user = await User.destroy({
                 where: {
                     id: req.params.id
@@ -125,15 +135,15 @@ class UsersController {
 
             res.sendStatus(200);
 
-        } catch (error){
+        } catch (error) {
             res.json(error);
         }
     }
 
-    public async update (req: Request, res: Response){
+    public async update(req: Request, res: Response) {
 
         try {
-            
+
             const user = await User.update(
                 {
                     name: req.body.name,
@@ -148,7 +158,7 @@ class UsersController {
 
             res.json(user);
 
-        } catch (error){
+        } catch (error) {
             res.json(error);
         }
     }

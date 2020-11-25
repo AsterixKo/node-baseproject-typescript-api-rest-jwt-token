@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { checkJwt } from '../middlewares/checkJwt';
 import { usersController } from '../controllers/users.controller';
+import { checkRole } from '../middlewares/checkRole';
 
 
 class UsersRoutes {
@@ -10,7 +11,7 @@ class UsersRoutes {
     constructor(){
         this.router.get('/show', usersController.show);
         
-        this.router.get('/', [checkJwt], usersController.index);
+        this.router.get('/', [checkJwt, checkRole], usersController.index);
         this.router.get('/:id', usersController.showById);
         this.router.post('/', usersController.create);
         this.router.delete('/:id', usersController.delete);
