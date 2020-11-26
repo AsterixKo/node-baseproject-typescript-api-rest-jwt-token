@@ -11,6 +11,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
         console.log('headers:', req.headers);
         console.log('tooken:', token);
         jwt.verify(token, config.jwtSecret);
+        //res.locals.propiedad =
 
     }catch(error) {
         //si no ha sido válido el token que llega, devolvemos 401

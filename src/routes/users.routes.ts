@@ -11,7 +11,8 @@ class UsersRoutes {
     constructor(){
         this.router.get('/show', usersController.show);
         
-        this.router.get('/', [checkJwt, checkRole], usersController.index);
+        this.router.get('/', [checkJwt, checkRole(['ADMIN'])], usersController.index);
+        // this.router.get('/', [checkJwt, checkRole(['ADMIN', 'WEB_CLIENT'])], usersController.index);
         this.router.get('/:id', usersController.showById);
         this.router.post('/', usersController.create);
         this.router.delete('/:id', usersController.delete);
